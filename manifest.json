@@ -1,0 +1,18 @@
+{
+
+  "manifest_version": 2,
+  "name": "MicrosoftDocsLanguageChanger",
+  "version": "1.0",
+
+  "description": "Changes microsoft docs language to english",
+
+  "icons": {
+    "48": "icons/changer-48.png"
+  },
+
+  "content_scripts": [{
+    "matches": ["*://docs.microsoft.com/*"],
+    "js": ["js/language-changer.js"]
+  }]
+
+}
