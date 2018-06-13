@@ -7,12 +7,17 @@
   "description": "Changes microsoft docs language to english",
 
   "icons": {
-    "48": "icons/changer-48.png"
+    "48": "icons/changer.svg",
+    "96": "icons/changer.svg"
   },
+  
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "*://docs.microsoft.com/*-*/*"
+  ],
 
-  "content_scripts": [{
-    "matches": ["*://docs.microsoft.com/*"],
-    "js": ["js/language-changer.js"]
-  }]
-
+  "background": {
+    "scripts": ["language-changer.js"]
+  }
 }
