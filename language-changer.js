@@ -1,24 +1,30 @@
-function languageReplacer(match, p1, p2, p3, offset, string) {
-    return [p1, 'en-us', p3].join('');
-  }
+function languageReplacer(match, hostUrl, languageCode, urlAfterLanguageCode) {
+    return [hostUrl, 'en-us', urlAfterLanguageCode].join('');
+}
 
 function changeDocsLanguage(requestDetails) {
-    let modifiedUrl = requestDetails.url.replace(/(^https?:\/\/docs\.microsoft\.com\/)(\w{2,3}(?:-\w{2})?)([\/*\w*\/*\W*]*)/, languageReplacer);
+    // Language code is in format provided by https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+    // Language code is duplicated if language has no dialect (for example pl-pl)
+    const extractLanguageCodeRegex = /(^https?:\/\/docs\.microsoft\.com\/)(\w{2}-\w{2})([\w\W]*)/;
 
-    if(requestDetails.url === modifiedUrl){
-      return;
+    const modifiedUrl = requestDetails
+        .url
+        .replace(extractLanguageCodeRegex, languageReplacer);
+
+    if (requestDetails.url === modifiedUrl) {
+        return;
     }
 
     return {
-      redirectUrl: modifiedUrl
+        redirectUrl: modifiedUrl
     };
-  }
-  
-  browser.webRequest.onBeforeRequest.addListener(
+}
+
+browser.webRequest.onBeforeRequest.addListener(
     changeDocsLanguage,
     {
-      urls: ["*://docs.microsoft.com/*-*/*"],
-      types: ["main_frame"]
+        urls: ["*://docs.microsoft.com/*-*/*"],
+        types: ["main_frame"]
     },
     ["blocking"]
-  );
+);
