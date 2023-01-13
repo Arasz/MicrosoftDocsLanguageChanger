@@ -5,7 +5,7 @@ function languageReplacer(match, hostUrl, languageCode, urlAfterLanguageCode) {
 function changeDocsLanguage(requestDetails) {
     // Language code is in format provided by https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
     // Language code is duplicated if language has no dialect (for example pl-pl)
-    const extractLanguageCodeRegex = /(^https?:\/\/docs\.microsoft\.com\/)(\w{2}-\w{2})([\w\W]*)/;
+    const extractLanguageCodeRegex = /(^https?:\/\/learn\.microsoft\.com\/)(\w{2}-\w{2})([\w\W]*)/;
 
     const modifiedUrl = requestDetails
         .url
@@ -23,7 +23,7 @@ function changeDocsLanguage(requestDetails) {
 browser.webRequest.onBeforeRequest.addListener(
     changeDocsLanguage,
     {
-        urls: ["*://docs.microsoft.com/*-*/*"],
+        urls: ["*://learn.microsoft.com/*-*/*"],
         types: ["main_frame"]
     },
     ["blocking"]
